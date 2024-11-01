@@ -6,7 +6,7 @@ import {
 import { NEST_DATABASE_OPTIONS } from 'src/core/constrants/db.constants';
 import { NestDrizzleOptions } from './interfaces/database.interfaces';
 import { migrate as migratePgJs } from 'drizzle-orm/postgres-js/migrator';
-import * as postgres from 'postgres';
+import postgres from 'postgres';
 
 interface IDatabaseService {
   migrate(): Promise<void>;
