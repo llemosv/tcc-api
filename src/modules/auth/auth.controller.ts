@@ -12,7 +12,7 @@ export class AuthController {
   @Post()
   async login(
     @Body(new ZodValidationPipe(authSchema)) authDto: AuthDTO,
-    @Res() response: Response,
+    @Res() response: any,
   ) {
     const user = await this.authService.validateUser(authDto);
     const token = await this.authService.generateToken(authDto, user);
