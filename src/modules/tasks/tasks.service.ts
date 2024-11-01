@@ -1,4 +1,4 @@
-import * as schema from 'src/shared/database/schema';
+import * as schema from '../../shared/database/schema';
 import {
   BadRequestException,
   Inject,
@@ -7,7 +7,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
-import { DRIZZLE_ORM } from 'src/core/constrants/db.constants';
+import { DRIZZLE_ORM } from '../../core/constrants/db.constants';
 import { TaskDTO } from './dtos/create-task.dto';
 import {
   and,

@@ -1,9 +1,8 @@
 import { Body, Controller, Post, Res } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { Response } from 'express';
 
 import { AuthDTO, authSchema } from './dtos/auth.dto';
-import { ZodValidationPipe } from 'src/core/pipes/zod-validation.pipe';
+import { ZodValidationPipe } from '../../core/pipes/zod-validation.pipe';
 
 @Controller('auth')
 export class AuthController {

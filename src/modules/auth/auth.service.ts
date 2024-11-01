@@ -5,10 +5,10 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
-import { DRIZZLE_ORM } from 'src/core/constrants/db.constants';
+import { DRIZZLE_ORM } from '../../core/constrants/db.constants';
 import { AuthDTO } from './dtos/auth.dto';
 
-import * as schema from 'src/shared/database/schema';
+import * as schema from '../../shared/database/schema';
 import * as bcrypt from 'bcrypt';
 import { sql } from 'drizzle-orm';
 import { JwtService } from '@nestjs/jwt';

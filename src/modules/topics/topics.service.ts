@@ -1,9 +1,9 @@
-import * as schema from 'src/shared/database/schema';
+import * as schema from '../../shared/database/schema';
 
 import { Inject, Injectable, Logger } from '@nestjs/common';
 
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
-import { DRIZZLE_ORM } from 'src/core/constrants/db.constants';
+import { DRIZZLE_ORM } from '../../core/constrants/db.constants';
 import { eq, sql } from 'drizzle-orm';
 import { CreateTopicDTO, TopicDTO } from './dtos/create-topic.dto';
 import { CreateTopicMessageDTO } from './dtos/create-topic-message.dto';

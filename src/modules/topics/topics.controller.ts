@@ -8,7 +8,7 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { ZodValidationPipe } from 'src/core/pipes/zod-validation.pipe';
+import { ZodValidationPipe } from '../../core/pipes/zod-validation.pipe';
 import { TopicsService } from './topics.service';
 import { CreateTopicDTO, createTopicSchema } from './dtos/create-topic.dto';
 import {

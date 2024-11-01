@@ -8,7 +8,7 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { ZodValidationPipe } from 'src/core/pipes/zod-validation.pipe';
+import { ZodValidationPipe } from '../../core/pipes/zod-validation.pipe';
 import { TccGuidancesService } from './tcc-guidances.service';
 import {
   CreateTccGuidanceDTO,

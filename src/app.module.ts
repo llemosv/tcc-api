@@ -3,7 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import * as schema from 'src/shared/database/schema';
+import * as schema from './shared/database/schema';
 import { NestDrizzleModule } from './shared/database/database.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { PeopleModule } from './modules/people/people.module';

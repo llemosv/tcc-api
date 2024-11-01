@@ -1,12 +1,13 @@
-import * as schema from 'src/shared/database/schema';
+import * as schema from '../../shared/database/schema';
 
 import { Inject, Injectable } from '@nestjs/common';
 
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
-import { DRIZZLE_ORM } from 'src/core/constrants/db.constants';
 import { and, eq } from 'drizzle-orm';
 import { CreateNotificationDTO } from './dtos/create-notification.dto';
 import { NotificationsGateway } from './notifications.gateway';
+import { DRIZZLE_ORM } from '../../core/constrants/db.constants';
+
 @Injectable()
 export class NotificationsService {
   constructor(
