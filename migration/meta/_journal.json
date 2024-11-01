@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1730229173045,
+      "tag": "0000_notification",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1730286461405,
+      "tag": "0001_add-column-data-pendente-revisao",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1730288118790,
+      "tag": "0002_add-column-justificativa",
+      "breakpoints": true
+    }
+  ]
+}
