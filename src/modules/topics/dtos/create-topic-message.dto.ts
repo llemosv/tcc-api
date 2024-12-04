@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const createTopicMessageSchema = z.object({
-  id_topic: z.string().uuid(),
+  id_topico: z.string().uuid(),
   id_autor: z.string().uuid(),
   conteudo: z.string().min(1),
 });

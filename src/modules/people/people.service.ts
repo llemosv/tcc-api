@@ -1,7 +1,7 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
-import * as schema from '../../shared/database/schema';
+import * as schema from 'src/shared/database/schema';
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
-import { DRIZZLE_ORM } from '../../core/constrants/db.constants';
+import { DRIZZLE_ORM } from 'src/core/constrants/db.constants';
 
 import * as bcrypt from 'bcrypt';
 import { CreatePeopleDTO } from './dtos/people.dto';
@@ -66,23 +66,63 @@ export class PeopleService {
     try {
       const teachers = await this.database.execute(sql`
         select
-          people.id,
-          people.nome,
-          people.email,
-          courses.name as curso 
-        from people 
+          usuario.id,
+          usuario.nome,
+          usuario.email,
+          cursos.name as curso 
+        from usuario 
           join
-              people_courses 
-              on people_courses.people_id = people.id 
+              cursos_usuario 
+              on cursos_usuario.people_id = usuario.id 
           join
-              courses 
-              on courses.id = people_courses.course_id 
+              cursos 
+              on cursos.id = cursos_usuario.course_id 
         where
-          people.id_tipo_pessoa = 'b6a95883-9949-4d23-b220-1f3af6c8f7ea'
-          and people_courses.course_id = ${id_course}
+          usuario.id_tipo_pessoa = 'b6a95883-9949-4d23-b220-1f3af6c8f7ea'
+          and cursos_usuario.course_id = ${id_course}
       `);
 
       return teachers;
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
+  }
+
+  async getPeopleTypes(): Promise<
+    {
+      id: string;
+      type: string;
+    }[]
+  > {
+    try {
+      const types = await this.database
+        .select({
+          id: schema.peopleTypes.id,
+          type: schema.peopleTypes.tipo,
+        })
+        .from(schema.peopleTypes);
+
+      return types;
+    } catch (error) {
+      throw new BadRequestException(error);
+    }
+  }
+
+  async getCourses(): Promise<
+    {
+      id: string;
+      type: string;
+    }[]
+  > {
+    try {
+      const courses = await this.database
+        .select({
+          id: schema.courses.id,
+          type: schema.courses.name,
+        })
+        .from(schema.courses);
+
+      return courses;
     } catch (error) {
       throw new BadRequestException(error);
     }

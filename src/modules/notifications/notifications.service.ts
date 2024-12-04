@@ -1,13 +1,12 @@
-import * as schema from '../../shared/database/schema';
+import * as schema from 'src/shared/database/schema';
 
 import { Inject, Injectable } from '@nestjs/common';
 
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
-import { and, eq } from 'drizzle-orm';
+import { DRIZZLE_ORM } from 'src/core/constrants/db.constants';
+import { and, eq, sql } from 'drizzle-orm';
 import { CreateNotificationDTO } from './dtos/create-notification.dto';
 import { NotificationsGateway } from './notifications.gateway';
-import { DRIZZLE_ORM } from '../../core/constrants/db.constants';
-
 @Injectable()
 export class NotificationsService {
   constructor(
@@ -35,7 +34,9 @@ export class NotificationsService {
   }: CreateNotificationDTO): Promise<void> {
     const idType = await this.getNotificationTypeId(type);
 
-    if (!idType) return;
+    if (!idType) {
+      return;
+    }
 
     const [notification] = await this.database
       .insert(schema.notification)
@@ -78,11 +79,17 @@ export class NotificationsService {
       )
       .where(
         and(
-          eq(schema.notification.lida, false), // Notificações não lidas
-          eq(schema.notification.id_usuario_destinatario, userId), // Notificações destinadas ao userId
+          eq(schema.notification.lida, false),
+          eq(schema.notification.id_usuario_destinatario, userId),
         ),
       );
 
     return notifications;
+  }
+
+  async readAll(userId: string): Promise<void> {
+    await this.database.execute(sql`
+      UPDATE notificacao SET lida = TRUE WHERE id_usuario_destinatario = ${userId}
+      `);
   }
 }

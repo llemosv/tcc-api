@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -6,9 +7,11 @@ import {
   Param,
   Patch,
   Post,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
-import { ZodValidationPipe } from '../../core/pipes/zod-validation.pipe';
+import { ZodValidationPipe } from 'src/core/pipes/zod-validation.pipe';
 import { TopicsService } from './topics.service';
 import { CreateTopicDTO, createTopicSchema } from './dtos/create-topic.dto';
 import {
@@ -17,6 +20,8 @@ import {
 } from './dtos/create-topic-message.dto';
 import { AuthGuard } from '../auth/auth.guard';
 import { ConcludeTaskDTO } from '../tasks/dtos/conclude-task.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import multerConfig from 'src/config/multer.config';
 
 @UseGuards(AuthGuard)
 @Controller('topics')
@@ -67,5 +72,27 @@ export class TopicsController {
   @Delete('delete/:id')
   async delete(@Param('id') id: string) {
     return await this.topicsService.delete(id);
+  }
+
+  @Post('upload/:idTopico')
+  @UseInterceptors(FileInterceptor('file', multerConfig))
+  async uploadFile(
+    @UploadedFile() file: Express.Multer.File,
+    @Param('idTopico') idTopico: string,
+  ) {
+    if (!file) {
+      throw new BadRequestException('Arquivo não selecionado.');
+    }
+
+    await this.topicsService.uploadFile(
+      idTopico,
+      file.originalname,
+      file.mimetype,
+    );
+  }
+
+  @Get('filesTopic/:idTopico')
+  async getFilesTopic(@Param('idTopico') idTopico: string) {
+    return await this.topicsService.getFilesTopic(idTopico);
   }
 }

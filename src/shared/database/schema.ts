@@ -10,27 +10,28 @@ import {
   timestamp,
 } from 'drizzle-orm/pg-core';
 
-export const peopleTypes = pgTable('people_types', {
+export const peopleTypes = pgTable('tipos_usuario', {
   id: uuid('id')
     .primaryKey()
     .default(sql`gen_random_uuid()`),
   tipo: varchar('tipo', { length: 50 }).notNull(),
 });
 
-export const people = pgTable('people', {
+export const people = pgTable('usuario', {
   id: uuid('id')
     .primaryKey()
     .default(sql`gen_random_uuid()`),
   nome: text('nome'),
   email: varchar('email', { length: 255 }).unique(),
   senha: text('senha'),
+  cpf: varchar('cpf', { length: 11 }).unique(),
   fl_ativo: boolean('fl_ativo'),
   id_tipo_pessoa: uuid('id_tipo_pessoa')
     .notNull()
     .references(() => peopleTypes.id),
 });
 
-export const courses = pgTable('courses', {
+export const courses = pgTable('cursos', {
   id: uuid('id')
     .primaryKey()
     .default(sql`gen_random_uuid()`),
@@ -39,7 +40,7 @@ export const courses = pgTable('courses', {
   semesters: integer('semesters').notNull(),
 });
 
-export const peopleCourses = pgTable('people_courses', {
+export const peopleCourses = pgTable('cursos_usuario', {
   people_id: uuid('people_id')
     .notNull()
     .references(() => people.id),
@@ -48,7 +49,7 @@ export const peopleCourses = pgTable('people_courses', {
     .references(() => courses.id),
 });
 
-export const tccGuidances = pgTable('tcc_guidances', {
+export const tccGuidances = pgTable('orientacoes_tcc', {
   id: uuid('id')
     .primaryKey()
     .default(sql`gen_random_uuid()`),
@@ -64,9 +65,10 @@ export const tccGuidances = pgTable('tcc_guidances', {
   justificativaReprovacao: text('justificativa_reprovacao'),
   data_aprovacao: date('data_aprovacao'),
   data_reprovacao: date('data_reprovacao'),
+  data_finalizacao: date('data_finalizacao'),
 });
 
-export const tasks = pgTable('tasks', {
+export const tasks = pgTable('atividades', {
   id: uuid('id')
     .primaryKey()
     .default(sql`gen_random_uuid()`),
@@ -81,11 +83,11 @@ export const tasks = pgTable('tasks', {
   data_finalizacao: date('data_finalizacao'),
 });
 
-export const taskTopics = pgTable('task_topics', {
+export const taskTopics = pgTable('topicos_atividades', {
   id: uuid('id')
     .primaryKey()
     .default(sql`gen_random_uuid()`),
-  id_task: uuid('id_task')
+  id_atividade: uuid('id_atividade')
     .notNull()
     .references(() => tasks.id),
   titulo: varchar('titulo', { length: 255 }).notNull(),
@@ -97,11 +99,11 @@ export const taskTopics = pgTable('task_topics', {
   data_finalizacao: date('data_finalizacao'),
 });
 
-export const topicMessages = pgTable('topic_messages', {
+export const topicMessages = pgTable('mensagens_topico', {
   id: uuid('id')
     .primaryKey()
     .default(sql`gen_random_uuid()`),
-  id_topic: uuid('id_topic')
+  id_topico: uuid('id_topico')
     .notNull()
     .references(() => taskTopics.id),
   id_autor: uuid('id_autor')
@@ -113,13 +115,13 @@ export const topicMessages = pgTable('topic_messages', {
     .defaultNow(),
 });
 
-export const topicFiles = pgTable('topic_files', {
+export const topicFiles = pgTable('arquivos_topico', {
   id: uuid('id')
     .primaryKey()
     .default(sql`gen_random_uuid()`),
-  id_topic_messages: uuid('id_topic_messages')
+  id_topico: uuid('id_topico')
     .notNull()
-    .references(() => topicMessages.id),
+    .references(() => taskTopics.id),
   nome_arquivo: varchar('nome_arquivo', { length: 255 }).notNull(),
   caminho: text('caminho').notNull(),
   data_upload: timestamp('data_upload', { mode: 'string' })
@@ -127,14 +129,14 @@ export const topicFiles = pgTable('topic_files', {
     .defaultNow(),
 });
 
-export const notificationType = pgTable('notification_type', {
+export const notificationType = pgTable('tipo_notificacao', {
   id: uuid('id')
     .primaryKey()
     .default(sql`gen_random_uuid()`),
   tipo: varchar('tipo', { length: 100 }).notNull(),
 });
 
-export const notification = pgTable('notification', {
+export const notification = pgTable('notificacao', {
   id: uuid('id')
     .primaryKey()
     .default(sql`gen_random_uuid()`),

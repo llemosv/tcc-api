@@ -22,6 +22,34 @@
       "when": 1730288118790,
       "tag": "0002_add-column-justificativa",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1731952580478,
+      "tag": "0003_brief_slapstick",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1731952978282,
+      "tag": "0004_keen_blue_shield",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1732718290703,
+      "tag": "0005_add-column-data-finalizacao",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1733262729751,
+      "tag": "0006_icy_norman_osborn",
+      "breakpoints": true
     }
   ]
 }

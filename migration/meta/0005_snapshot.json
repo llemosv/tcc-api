@@ -1,0 +1,697 @@
+{
+  "id": "8dbc5427-080c-4a0f-9a74-e4799fb192de",
+  "prevId": "5dae44cc-11aa-4671-8879-42aa250a49cd",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.cursos": {
+      "name": "cursos",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "semesters": {
+          "name": "semesters",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.notificacao": {
+      "name": "notificacao",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "id_tipo_notificacao": {
+          "name": "id_tipo_notificacao",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id_usuario_remetente": {
+          "name": "id_usuario_remetente",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id_usuario_destinatario": {
+          "name": "id_usuario_destinatario",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "mensagem": {
+          "name": "mensagem",
+          "type": "varchar(254)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "lida": {
+          "name": "lida",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
+        },
+        "id_referencia": {
+          "name": "id_referencia",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "notificacao_id_tipo_notificacao_tipo_notificacao_id_fk": {
+          "name": "notificacao_id_tipo_notificacao_tipo_notificacao_id_fk",
+          "tableFrom": "notificacao",
+          "tableTo": "tipo_notificacao",
+          "columnsFrom": [
+            "id_tipo_notificacao"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "notificacao_id_usuario_remetente_usuario_id_fk": {
+          "name": "notificacao_id_usuario_remetente_usuario_id_fk",
+          "tableFrom": "notificacao",
+          "tableTo": "usuario",
+          "columnsFrom": [
+            "id_usuario_remetente"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "notificacao_id_usuario_destinatario_usuario_id_fk": {
+          "name": "notificacao_id_usuario_destinatario_usuario_id_fk",
+          "tableFrom": "notificacao",
+          "tableTo": "usuario",
+          "columnsFrom": [
+            "id_usuario_destinatario"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.tipo_notificacao": {
+      "name": "tipo_notificacao",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "tipo": {
+          "name": "tipo",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.usuario": {
+      "name": "usuario",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "nome": {
+          "name": "nome",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "senha": {
+          "name": "senha",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cpf": {
+          "name": "cpf",
+          "type": "varchar(11)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "fl_ativo": {
+          "name": "fl_ativo",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id_tipo_pessoa": {
+          "name": "id_tipo_pessoa",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "usuario_id_tipo_pessoa_tipos_usuario_id_fk": {
+          "name": "usuario_id_tipo_pessoa_tipos_usuario_id_fk",
+          "tableFrom": "usuario",
+          "tableTo": "tipos_usuario",
+          "columnsFrom": [
+            "id_tipo_pessoa"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "usuario_email_unique": {
+          "name": "usuario_email_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "email"
+          ]
+        },
+        "usuario_cpf_unique": {
+          "name": "usuario_cpf_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "cpf"
+          ]
+        }
+      }
+    },
+    "public.cursos_usuario": {
+      "name": "cursos_usuario",
+      "schema": "",
+      "columns": {
+        "people_id": {
+          "name": "people_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "course_id": {
+          "name": "course_id",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "cursos_usuario_people_id_usuario_id_fk": {
+          "name": "cursos_usuario_people_id_usuario_id_fk",
+          "tableFrom": "cursos_usuario",
+          "tableTo": "usuario",
+          "columnsFrom": [
+            "people_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "cursos_usuario_course_id_cursos_id_fk": {
+          "name": "cursos_usuario_course_id_cursos_id_fk",
+          "tableFrom": "cursos_usuario",
+          "tableTo": "cursos",
+          "columnsFrom": [
+            "course_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.tipos_usuario": {
+      "name": "tipos_usuario",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "tipo": {
+          "name": "tipo",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.topicos_atividades": {
+      "name": "topicos_atividades",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "id_atividade": {
+          "name": "id_atividade",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "titulo": {
+          "name": "titulo",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "descricao": {
+          "name": "descricao",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "data_criacao": {
+          "name": "data_criacao",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "previsao_entrega": {
+          "name": "previsao_entrega",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "data_pendente_revisao": {
+          "name": "data_pendente_revisao",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "justificativa": {
+          "name": "justificativa",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "data_finalizacao": {
+          "name": "data_finalizacao",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "topicos_atividades_id_atividade_atividades_id_fk": {
+          "name": "topicos_atividades_id_atividade_atividades_id_fk",
+          "tableFrom": "topicos_atividades",
+          "tableTo": "atividades",
+          "columnsFrom": [
+            "id_atividade"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.atividades": {
+      "name": "atividades",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "id_tcc": {
+          "name": "id_tcc",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tarefa": {
+          "name": "tarefa",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "data_criacao": {
+          "name": "data_criacao",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "previsao_entrega": {
+          "name": "previsao_entrega",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "data_pendente_revisao": {
+          "name": "data_pendente_revisao",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "justificativa": {
+          "name": "justificativa",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "data_finalizacao": {
+          "name": "data_finalizacao",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "atividades_id_tcc_orientacoes_tcc_id_fk": {
+          "name": "atividades_id_tcc_orientacoes_tcc_id_fk",
+          "tableFrom": "atividades",
+          "tableTo": "orientacoes_tcc",
+          "columnsFrom": [
+            "id_tcc"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.orientacoes_tcc": {
+      "name": "orientacoes_tcc",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "id_aluno_solicitante": {
+          "name": "id_aluno_solicitante",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id_professor_orientador": {
+          "name": "id_professor_orientador",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "solicitacao_aceita": {
+          "name": "solicitacao_aceita",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "tema": {
+          "name": "tema",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "previsao_entrega": {
+          "name": "previsao_entrega",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "justificativa_reprovacao": {
+          "name": "justificativa_reprovacao",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "data_aprovacao": {
+          "name": "data_aprovacao",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "data_reprovacao": {
+          "name": "data_reprovacao",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "data_finalizacao": {
+          "name": "data_finalizacao",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "orientacoes_tcc_id_aluno_solicitante_usuario_id_fk": {
+          "name": "orientacoes_tcc_id_aluno_solicitante_usuario_id_fk",
+          "tableFrom": "orientacoes_tcc",
+          "tableTo": "usuario",
+          "columnsFrom": [
+            "id_aluno_solicitante"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "orientacoes_tcc_id_professor_orientador_usuario_id_fk": {
+          "name": "orientacoes_tcc_id_professor_orientador_usuario_id_fk",
+          "tableFrom": "orientacoes_tcc",
+          "tableTo": "usuario",
+          "columnsFrom": [
+            "id_professor_orientador"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.arquivos_topico": {
+      "name": "arquivos_topico",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "id_mensagem_topico": {
+          "name": "id_mensagem_topico",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nome_arquivo": {
+          "name": "nome_arquivo",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "caminho": {
+          "name": "caminho",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "data_upload": {
+          "name": "data_upload",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "arquivos_topico_id_mensagem_topico_mensagens_topico_id_fk": {
+          "name": "arquivos_topico_id_mensagem_topico_mensagens_topico_id_fk",
+          "tableFrom": "arquivos_topico",
+          "tableTo": "mensagens_topico",
+          "columnsFrom": [
+            "id_mensagem_topico"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.mensagens_topico": {
+      "name": "mensagens_topico",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "id_topico": {
+          "name": "id_topico",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "id_autor": {
+          "name": "id_autor",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "conteudo": {
+          "name": "conteudo",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "data_criacao": {
+          "name": "data_criacao",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "mensagens_topico_id_topico_topicos_atividades_id_fk": {
+          "name": "mensagens_topico_id_topico_topicos_atividades_id_fk",
+          "tableFrom": "mensagens_topico",
+          "tableTo": "topicos_atividades",
+          "columnsFrom": [
+            "id_topico"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "mensagens_topico_id_autor_usuario_id_fk": {
+          "name": "mensagens_topico_id_autor_usuario_id_fk",
+          "tableFrom": "mensagens_topico",
+          "tableTo": "usuario",
+          "columnsFrom": [
+            "id_autor"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

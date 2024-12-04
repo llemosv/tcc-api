@@ -1,4 +1,4 @@
-import * as schema from '../../shared/database/schema';
+import * as schema from 'src/shared/database/schema';
 import {
   BadRequestException,
   Inject,
@@ -7,7 +7,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
-import { DRIZZLE_ORM } from '../../core/constrants/db.constants';
+import { DRIZZLE_ORM } from 'src/core/constrants/db.constants';
 import { TaskDTO } from './dtos/create-task.dto';
 import {
   and,
@@ -70,7 +70,7 @@ export class TasksService {
       .from(schema.taskTopics)
       .where(
         and(
-          eq(schema.taskTopics.id_task, id),
+          eq(schema.taskTopics.id_atividade, id),
           isNull(schema.taskTopics.data_finalizacao),
         ),
       );
@@ -81,8 +81,27 @@ export class TasksService {
       );
 
     await this.database.execute(sql`
-      UPDATE tasks SET data_pendente_revisao = CURRENT_DATE WHERE id = ${id}
+      UPDATE atividades SET data_pendente_revisao = CURRENT_DATE WHERE id = ${id}
   `);
+
+    const [work] = await this.database
+      .select({
+        id: schema.tccGuidances.id,
+        id_aluno_solicitante: schema.tccGuidances.id_aluno_solicitante,
+        id_professor_orientador: schema.tccGuidances.id_professor_orientador,
+        tema: schema.tccGuidances.tema,
+      })
+      .from(schema.tccGuidances)
+      .innerJoin(schema.tasks, eq(schema.tasks.id_tcc, schema.tccGuidances.id))
+      .where(eq(schema.tasks.id, id));
+
+    await this.notificationsService.create({
+      recipientUserId: work.id_professor_orientador,
+      senderUserId: work.id_aluno_solicitante,
+      message: `Nova solicitação para revisar atividade no TCC ${work.tema}.`,
+      type: 'revisaoAtv',
+      referenceId: work.id,
+    });
   }
 
   async concludeTask(
@@ -91,7 +110,7 @@ export class TasksService {
     justification?: string,
   ): Promise<void> {
     await this.database.execute(sql`
-      UPDATE tasks 
+      UPDATE atividades 
       SET 
           ${
             conclude
@@ -101,6 +120,25 @@ export class TasksService {
           justificativa = ${justification}
       WHERE id = ${id}
   `);
+
+    const [work] = await this.database
+      .select({
+        id: schema.tccGuidances.id,
+        id_aluno_solicitante: schema.tccGuidances.id_aluno_solicitante,
+        id_professor_orientador: schema.tccGuidances.id_professor_orientador,
+        tema: schema.tccGuidances.tema,
+      })
+      .from(schema.tccGuidances)
+      .innerJoin(schema.tasks, eq(schema.tasks.id_tcc, schema.tccGuidances.id))
+      .where(eq(schema.tasks.id, id));
+
+    await this.notificationsService.create({
+      recipientUserId: work.id_aluno_solicitante,
+      senderUserId: work.id_professor_orientador,
+      message: `Atividade revisada no TCC ${work.tema}.`,
+      type: 'revisaoAtv',
+      referenceId: work.id,
+    });
   }
 
   async getTasks(
@@ -163,15 +201,15 @@ export class TasksService {
 
   async getPendingTasks(id_tcc: number): Promise<TaskDTO[]> {
     const response = (await this.database.execute(sql`
-      SELECT tasks.id, 
-            tasks.tarefa, 
-            TO_CHAR(tasks.data_criacao, 'DD/MM/YYYY') AS data_criacao, 
-            TO_CHAR(tasks.previsao_entrega, 'DD/MM/YYYY') AS previsao_entrega,
-            TO_CHAR(tasks.data_finalizacao, 'DD/MM/YYYY') AS data_finalizacao
-      FROM   tasks 
+      SELECT atividades.id, 
+            atividades.tarefa, 
+            TO_CHAR(atividades.data_criacao, 'DD/MM/YYYY') AS data_criacao, 
+            TO_CHAR(atividades.previsao_entrega, 'DD/MM/YYYY') AS previsao_entrega,
+            TO_CHAR(atividades.data_finalizacao, 'DD/MM/YYYY') AS data_finalizacao
+      FROM   atividades 
       WHERE  id_tcc = ${id_tcc}
             AND data_finalizacao IS NULL
-      ORDER BY tasks.previsao_entrega;
+      ORDER BY atividades.previsao_entrega;
 
       `)) as TaskDTO[];
 
@@ -180,8 +218,8 @@ export class TasksService {
 
   async getTasksCount(id_tcc: number): Promise<TasksCount[]> {
     const tasks = await this.database.execute(sql`
-      select tasks.id, tasks.previsao_entrega, tasks.data_criacao, tasks.data_finalizacao 
-      from tasks 
+      select atividades.id, atividades.previsao_entrega, atividades.data_criacao, atividades.data_finalizacao 
+      from atividades 
       where id_tcc = ${id_tcc}
       `);
     const today = new Date();

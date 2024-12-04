@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { PeopleService } from './people.service';
 import { CreatePeopleDTO, createPeopleSchema } from './dtos/people.dto';
-import { ZodValidationPipe } from '../../core/pipes/zod-validation.pipe';
+import { ZodValidationPipe } from 'src/core/pipes/zod-validation.pipe';
 import { AuthGuard } from '../auth/auth.guard';
 
 @UseGuards(AuthGuard)
@@ -20,5 +20,14 @@ export class PeopleController {
   @Get('getTeachers/:id_course')
   async getTeachers(@Param('id_course') id_course: number) {
     return await this.peopleService.getTeachers(id_course);
+  }
+
+  @Get('getPeopleTypes')
+  async getPeopleTypes() {
+    return await this.peopleService.getPeopleTypes();
+  }
+  @Get('getCourses')
+  async getCourses() {
+    return await this.peopleService.getCourses();
   }
 }

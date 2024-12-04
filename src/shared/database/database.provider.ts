@@ -4,7 +4,7 @@ import { NestDrizzleOptions } from './interfaces/database.interfaces';
 import {
   DRIZZLE_ORM,
   NEST_DATABASE_OPTIONS,
-} from '../../core/constrants/db.constants';
+} from 'src/core/constrants/db.constants';
 
 export const connectionFactory = {
   provide: DRIZZLE_ORM,

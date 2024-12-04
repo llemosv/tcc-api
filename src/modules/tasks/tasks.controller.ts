@@ -8,7 +8,7 @@ import {
   Query,
   UseGuards,
 } from '@nestjs/common';
-import { ZodValidationPipe } from '../../core/pipes/zod-validation.pipe';
+import { ZodValidationPipe } from 'src/core/pipes/zod-validation.pipe';
 import { TasksService } from './tasks.service';
 import { TaskDTO, createTaskSchema } from './dtos/create-task.dto';
 import { AuthGuard } from '../auth/auth.guard';

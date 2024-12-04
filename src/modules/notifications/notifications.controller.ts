@@ -1,4 +1,4 @@
-import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 
 import { AuthGuard } from '../auth/auth.guard';
 import { NotificationsService } from './notifications.service';
@@ -11,5 +11,10 @@ export class NotificationsController {
   @Get('/pending/:id')
   async getPending(@Param('id') id: string) {
     return await this.notificationsService.getPending(id);
+  }
+
+  @Post('/readAll/:id')
+  async readAll(@Param('id') id: string) {
+    return await this.notificationsService.readAll(id);
   }
 }

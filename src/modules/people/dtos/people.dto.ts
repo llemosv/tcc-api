@@ -4,6 +4,7 @@ export const createPeopleSchema = z.object({
   nome: z.string(),
   email: z.string(),
   senha: z.string(),
+  cpf: z.string(),
   fl_ativo: z.boolean(),
   id_tipo_pessoa: z.string().uuid(),
   id_courses: z.array(z.string().uuid()),

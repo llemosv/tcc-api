@@ -1,0 +1,1 @@
+ALTER TABLE "orientacoes_tcc" ADD COLUMN "data_finalizacao" date;
